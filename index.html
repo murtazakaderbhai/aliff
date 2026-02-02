@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>I love you Alifff ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff4d6d, #ff8fab);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      opacity: 0.12;
+      font-size: 18px;
+      pointer-events: none;
+      animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200px); }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.2);
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      max-width: 360px;
+      z-index: 2;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .glow {
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 25px #ffdde1, 0 0 40px #fff; }
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .love {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 26px;
+      font-size: 18px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      margin: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .yes {
+      background: white;
+      color: #ff4d6d;
+      font-weight: bold;
+    }
+
+    .no {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      position: absolute;
+    }
+
+    #celebration {
+      display: none;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 18px;
+      margin-top: 15px;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="hearts">
+  ❤️ I love you Alifff ❤️ I love you Alifff ❤️ I love you Alifff ❤️
+</div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="question">
+  <h1 class="glow">Alifff 💖</h1>
+  <p>Will you be my Valentine? 🌹✨</p>
+  <div class="love">I love you Alifff ❤️</div>
+
+  <button class="yes" onclick="sayYes()">YES 💘</button>
+  <button class="no" id="noBtn">No 🙈</button>
+</div>
+
+<div class="card" id="celebration">
+  <h1 class="glow">SHE SAID YES 😭❤️</h1>
+  <p>
+    I love you Alifff ❤️<br>
+    You just made my heart the happiest ever 💖
+  </p>
+
+  <video autoplay loop controls>
+    <source src="celebrate.mp4" type="video/mp4">
+  </video>
+
+  <p class="love glow">Forever my Valentine ❤️</p>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 250 - 125;
+    const y = Math.random() * 250 - 125;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  function sayYes() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("celebration").style.display = "block";
+    document.getElementById("music").play();
+    startConfetti();
+  }
+
+  // Confetti 🎉
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let pieces = [];
+
+  function startConfetti() {
+    for (let i = 0; i < 200; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 20,
+        color: `hsl(${Math.random()*360},100%,70%)`
+      });
+    }
+    animateConfetti();
+  }
+
+  function animateConfetti() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => {
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fill();
+      p.y += Math.cos(p.d) + 2;
+      if (p.y > canvas.height) p.y = -10;
+    });
+    requestAnimationFrame(animateConfetti);
+  }
+</script>
+
+</body>
+</html>
